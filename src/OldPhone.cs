@@ -74,6 +74,6 @@ public class OldPhonePad
         Console.WriteLine(Translate("33#"));               // Outputs: "E"
         Console.WriteLine(Translate("22#"));               // Outputs: "B"
         Console.WriteLine(Translate("4433555 555666##"));  // Outputs: "HELLO"
-        Console.WriteLine(Translate("8 88777444666*664##")); // Assumes handling for non-digit characters
+        Console.WriteLine(Translate("8 88777444666*664##")); // Outputs: "TURING"
     }
 }
