@@ -24,16 +24,23 @@ public class OldPhonePad
         StringBuilder output = new StringBuilder();
         char currentChar = input[0];
         int count = 0;
-        
+        bool lastWasSpace = false;
+
         foreach (char ch in input)
         {
             if (ch == '#') break; // Stop processing if end marker is encountered
-            
+
+            if (ch == ' ')
+            {
+                lastWasSpace = true; // Mark that the last character was a space
+                continue;            // Continue to the next character
+            }
+
             if (char.IsDigit(ch) && ch >= '2' && ch <= '9')
             {
-                if (ch == currentChar)
+                if (ch == currentChar && !lastWasSpace)
                 {
-                    count++;
+                    count++; // Increment count if it's the same digit and no intervening space
                 }
                 else
                 {
@@ -41,6 +48,7 @@ public class OldPhonePad
                     currentChar = ch;
                     count = 1; // reset count for the new character
                 }
+                lastWasSpace = false; // Reset space flag after handling a digit
             }
         }
 
@@ -51,9 +59,9 @@ public class OldPhonePad
 
     private static void AppendCharacter(StringBuilder output, char digit, int count)
     {
-        if (char.IsDigit(digit) && digit >= '2' && digit <= '9') // Ensure the digit is valid
+        int num = digit - '0'; // Convert char to int
+        if (num >= 2 && num <= 9) // Ensure the digit is valid
         {
-            int num = digit - '0';
             string letters = KEYPAD[num];
             int index = (count - 1) % letters.Length;
             output.Append(letters[index]);
@@ -63,9 +71,9 @@ public class OldPhonePad
     public static void Main()
     {
         // Test examples
-        Console.WriteLine(Translate("33#"));             // Outputs: "E"
-        Console.WriteLine(Translate("22#"));           // Outputs: "B"
+        Console.WriteLine(Translate("33#"));               // Outputs: "E"
+        Console.WriteLine(Translate("22#"));               // Outputs: "B"
         Console.WriteLine(Translate("4433555 555666##"));  // Outputs: "HELLO"
-        Console.WriteLine(Translate("887777444666*664##")); // Assumes handling for non-digit characters
+        Console.WriteLine(Translate("8 88777444666*664##")); // Assumes handling for non-digit characters
     }
 }
